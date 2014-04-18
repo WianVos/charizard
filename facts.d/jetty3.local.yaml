@@ -1,5 +1,0 @@
----
- project: zmm
- type: jetty 
- size: small
- environment: acp

@@ -1,5 +1,0 @@
----
- project: zmm
- type: was
- size: small
- environment: dev

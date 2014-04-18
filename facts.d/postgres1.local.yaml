@@ -1,5 +1,0 @@
----
- project: zmm
- type: postgresql
- size: whatever
- environment: dev

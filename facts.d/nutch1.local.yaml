@@ -1,5 +1,0 @@
----
- project: zmm
- type: nutch
- size: whatever
- environment: dev
