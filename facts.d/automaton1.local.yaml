@@ -1,0 +1,5 @@
+---
+ project: zmm
+ type: automaton
+ size: whatever
+ environment: dev

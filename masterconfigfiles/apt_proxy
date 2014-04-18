@@ -1,0 +1,3 @@
+#Acquire::http::proxy "http://dbkrtpnxs:32$hhJq1Ks@proxy2.k94.kvk.nl:8080/";
+#Acquire::ftp::proxy "ftp://dbkrtpnxs:32$hhJq1Ks@proxy2.k94.kvk.nl:8080/";
+#Acquire::https::proxy "https://dbkrtpnxs:32$hhJq1Ks@proxy2.k94.kvk.nl:8080/";

@@ -1,0 +1,58 @@
+---
+roles:
+  pe-puppet-master:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--memory', 1024]
+        - [modifyvm, !ruby/sym id, '--natdnshostresolver1', 'on']
+        - [modifyvm, !ruby/sym id, '--natdnsproxy1', 'on']
+    synced_folders:
+     # - {host_path: modules, guest_path: /modules}
+      - {host_path: manifests, guest_path: /manifests}
+      - {host_path: hiera, guest_path: /var/lib/hiera}
+      - {host_path: files, guest_path: /files}
+      - {host_path: masterconfigfiles, guest_path: /var/tmp/masterconfigfiles}
+    provisioners:
+      - {type: hosts}
+      #- {type: shell, inline: '/bin/rm -rf /etc/puppetlabs'}
+      - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/root_profile /root/.profile; chmod 770 /root/.profile'}
+      - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/apt_proxy /etc/apt/apt.conf.d/apt_proxy;chmod 770 /etc/apt/apt.conf.d/apt_proxy'}
+      - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/r10k.yaml /etc/r10k.yaml;chmod 770 /etc/r10k.yaml'}
+      - {type: pe_bootstrap, role: !ruby/sym master, relocate_manifests: !ruby/sym true}
+      - {type: shell, inline: 'sed -i "s|.*modulepath.*|    modulepath=/\$confdir/environment/\$environment/modules:/modules:/opt/puppet/share/puppet/modules|" /etc/puppetlabs/puppet/puppet.conf'}
+      #- {type: shell, inline: 'sed -i "s/.*modulepath.*/    modulepath=\/modules:\/opt\/puppet\/share\/puppet\/modules/" /etc/puppetlabs/puppet/puppet.conf'}
+      #- {type: shell, inline: 'sed -i s|.*modulepath.*|modulepath=\/$confdir\/environments\/$environment/modules:\/opt\/puppet\/share\/puppet\/modules| /etc/puppetlabs/puppet/puppet.conf'}
+      - {type: shell, inline: 'sed -i "s/.*node_terminus.*//" /etc/puppetlabs/puppet/puppet.conf'}
+      - {type: shell, inline: 'sed -i "s/host.*/    host = 0\.0\.0\.0/" /etc/puppetlabs/puppetdb/conf.d/jetty.ini'}
+      - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/fileserver.conf /etc/puppetlabs/puppet/fileserver.conf;chown 655 /etc/puppetlabs/puppet/fileserver.conf'}
+      - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml;chown 655 /etc/puppetlabs/puppet/hiera.yaml'}
+      - {type: shell, inline: 'service pe-httpd restart;service pe-puppetdb restart'}
+      - {type: shell, inline: 'apt-get install -y git ' }
+      - {type: shell, inline: '/opt/puppet/bin/gem install r10k' }
+      - {type: shell, inline: '/opt/puppet/bin/r10k deploy environment' }
+
+
+
+
+  pe-puppet-agent:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--natdnshostresolver1', 'on']
+        - [modifyvm, !ruby/sym id, '--natdnsproxy1', 'on']
+    synced_folders:
+      - {host_path: sync, guest_path: /opt/sync}
+      - {host_path: masterconfigfiles, guest_path: /var/tmp/masterconfigfiles}
+      - {host_path: facts.d, guest_path: /var/tmp/facts.d}
+    provisioners:
+      - {type: hosts}
+      - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/yum.conf /etc/yum.conf; chmod 770 /etc/yum.conf'}
+      - {type: pe_bootstrap}
+      - {type: shell, inline: '/bin/ln -fs /opt/puppet/bin/puppet /usr/bin'}
+      - {type: shell, inline: '/bin/mkdir -p /etc/puppetlabs/facter/facts.d'}
+      - {type: shell, inline: 'if [[ -f /var/tmp/facts.d/`hostname`.yaml ]] ; then /bin/cp -rp /var/tmp/facts.d/`hostname`.yaml /etc/puppetlabs/facter/facts.d/ ; fi'}

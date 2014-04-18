@@ -1,0 +1,4 @@
+---
+ project: zmm
+ type: deployit-server
+ size: small

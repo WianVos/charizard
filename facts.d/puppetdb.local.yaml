@@ -1,0 +1,4 @@
+---
+ project: zmm
+ type: puppetdb
+ environment: core
