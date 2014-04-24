@@ -9,4 +9,9 @@ vms:
   hostname: deployit.local
   box: centos-64-x64-vbox4210-nocm
   roles:
-  - pe-puppet-agent
+  - pe-puppet-agent-dev
+- name: test
+  hostname: test.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev

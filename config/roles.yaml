@@ -22,22 +22,17 @@ roles:
       - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/apt_proxy /etc/apt/apt.conf.d/apt_proxy;chmod 770 /etc/apt/apt.conf.d/apt_proxy'}
       - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/r10k.yaml /etc/r10k.yaml;chmod 770 /etc/r10k.yaml'}
       - {type: pe_bootstrap, role: !ruby/sym master, relocate_manifests: !ruby/sym true}
-      - {type: shell, inline: 'sed -i "s|.*modulepath.*|    modulepath=/\$confdir/environment/\$environment/modules:/modules:/opt/puppet/share/puppet/modules|" /etc/puppetlabs/puppet/puppet.conf'}
-      #- {type: shell, inline: 'sed -i "s/.*modulepath.*/    modulepath=\/modules:\/opt\/puppet\/share\/puppet\/modules/" /etc/puppetlabs/puppet/puppet.conf'}
-      #- {type: shell, inline: 'sed -i s|.*modulepath.*|modulepath=\/$confdir\/environments\/$environment/modules:\/opt\/puppet\/share\/puppet\/modules| /etc/puppetlabs/puppet/puppet.conf'}
       - {type: shell, inline: 'sed -i "s/.*node_terminus.*//" /etc/puppetlabs/puppet/puppet.conf'}
       - {type: shell, inline: 'sed -i "s/host.*/    host = 0\.0\.0\.0/" /etc/puppetlabs/puppetdb/conf.d/jetty.ini'}
       - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/fileserver.conf /etc/puppetlabs/puppet/fileserver.conf;chown 655 /etc/puppetlabs/puppet/fileserver.conf'}
       - {type: shell, inline: '/bin/cp -rp /var/tmp/masterconfigfiles/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml;chown 655 /etc/puppetlabs/puppet/hiera.yaml'}
       - {type: shell, inline: 'service pe-httpd restart;service pe-puppetdb restart'}
+      - {type: shell, inline: 'sed -i "s|.*modulepath.*|    modulepath=\$confdir/environments/\$environment/modules:/modules:/opt/puppet/share/puppet/modules|" /etc/puppetlabs/puppet/puppet.conf'}
       - {type: shell, inline: 'apt-get install -y git ' }
       - {type: shell, inline: '/opt/puppet/bin/gem install r10k' }
       - {type: shell, inline: '/opt/puppet/bin/r10k deploy environment' }
 
-
-
-
-  pe-puppet-agent:
+  pe-puppet-agent-dev:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provider:
@@ -56,3 +51,5 @@ roles:
       - {type: shell, inline: '/bin/ln -fs /opt/puppet/bin/puppet /usr/bin'}
       - {type: shell, inline: '/bin/mkdir -p /etc/puppetlabs/facter/facts.d'}
       - {type: shell, inline: 'if [[ -f /var/tmp/facts.d/`hostname`.yaml ]] ; then /bin/cp -rp /var/tmp/facts.d/`hostname`.yaml /etc/puppetlabs/facter/facts.d/ ; fi'}
+      - {type: shell, inline: 'sed -i "s/environment = production/    environment = dev/" /etc/puppetlabs/puppet/puppet.conf'}
+
