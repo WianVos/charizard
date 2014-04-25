@@ -31,6 +31,8 @@ roles:
       - {type: shell, inline: 'apt-get install -y git ' }
       - {type: shell, inline: '/opt/puppet/bin/gem install r10k' }
       - {type: shell, inline: '/opt/puppet/bin/r10k deploy environment' }
+      - {type: shell, inline: 'cd /var/tmp/masterconfigfiles; /opt/puppet/bin/bundle install; service pe-httpd restart' }
+
 
   pe-puppet-agent-dev:
     private_networks:
