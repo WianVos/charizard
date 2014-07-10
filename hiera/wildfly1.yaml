@@ -1,0 +1,91 @@
+---
+ classes:
+  - wildfly
+  - deployit
+ deployit::server: 'false'
+ deployit::import_ssh_key: 'true'
+ deployit::http_server_address: 'deployit.local'
+ deployit::cis:
+        Environments/ZMM:
+           name: 'Environments/ZMM'
+           type: 'core.Directory'
+           remove_when_expired: 'false'
+        Environments/ZMM/project:
+           name: 'Environments/ZMM/%{project}'
+           type: 'core.Directory'
+           remove_when_expired: 'false'
+        Environments/ZMM/project/environment:
+           name: 'Environments/ZMM/%{project}/%{environment}'
+           type: 'core.Directory'
+           remove_when_expired: 'false'
+        Environments/ZMM/project/environment/%{project}:
+           name: 'Environments/ZMM/%{project}/%{environment}/%{project}'
+           type: 'udm.Environment'
+           remove_when_expired: 'false'
+           properties:
+               dictionaries:
+                  - '@ref': 'Environments/ZMM/%{project}/%{environment}/%{project}-dictionary'
+                  - '@ref': 'Environments/ZMM/%{project}/%{environment}/%{project}-password'
+        Environments/ZMM/project/environment/project-dictionary:
+           name: 'Environments/ZMM/%{project}/%{environment}/%{project}-dictionary'
+           type: 'udm.Dictionary'
+           remove_when_expired: 'false'
+        Environments/ZMM/project/environment/project-password:
+           name: 'Environments/ZMM/%{project}/%{environment}/%{project}-password'
+           type: 'udm.EncryptedDictionary'
+           remove_when_expired: 'false'
+        Infrastructure/ZMM:
+           name: 'Infrastructure/ZMM'
+           type: 'core.Directory'
+           remove_when_expired: 'false'
+        Infrastructure/ZMM/project:
+           name: 'Infrastructure/ZMM/%{project}'
+           type: 'core.Directory'
+           remove_when_expired: 'false'
+        Infrastructure/ZMM/project/environment:
+           name: 'Infrastructure/ZMM/%{project}/%{environment}'
+           type: 'core.Directory'
+           remove_when_expired: 'false'
+        Infrastructure/ZMM/project/environment/SshHost:
+           name: 'Infrastructure/ZMM/%{project}/%{environment}/%{hostname}'
+           type: 'overthere.SshHost'
+           properties:
+             address: '%{ipaddress_eth1}'
+             connectionType: 'SUDO'
+             os: 'UNIX'
+             port: '22'
+             username: 'deployit'
+             sudoUsername: 'root'
+             temporaryDirectoryPath: '/var/tmp'
+             tags: '%{project}'
+        Infrastructure/ZMM/project/environment/wildflyServer:
+           name: 'Infrastructure/ZMM/%{project}/%{environment}/%{hostname}/wildfly'
+           type: 'jbossdm.StandaloneServer'
+           properties:
+             home: '/opt/wildfly'
+             tags: '%{project}'
+             username: 'wildfly-admin'
+             password: 'changeme'
+             port: '9990'
+ deployit::users:
+        'basic wildfly user':
+          id: '%{project}_jenkins'
+          password: 'jenkins1234'
+ deployit::roles:
+        'environment_role':
+          id: '%{project}-%{environment}-wildfly'
+          users:
+           - '%{project}_jenkins'
+ deployit::dictionary_settings:
+        'Environments/ZMM/project/environment/project-dictionary/test_setting':
+          key: 'Environments/ZMM/%{project}/%{environment}/%{project}-dictionary/%{project}'
+          value: 'bla bla bla'
+ deployit::role_permissions:
+        'project environment wildfly basics':
+          name: '%{project} %{environment} wildfly basics'
+          role: '%{project}-%{environment}-wildfly'
+          cis:
+            - 'Infrastructure/ZMM/%{project}/%{environment}'
+          granted_permissions:
+            - 'controltask#execute'
+            - 'read'

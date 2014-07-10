@@ -15,3 +15,8 @@ vms:
   box: centos-64-x64-vbox4210-nocm
   roles:
   - pe-puppet-agent-dev
+- name: wildfly1
+  hostname: wildfly1.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev

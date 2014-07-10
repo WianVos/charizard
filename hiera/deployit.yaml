@@ -1,0 +1,17 @@
+---
+classes:
+  - deployit
+deployit::server: 'true'
+ #deployit::java_home: '/kvk/oracle-jdk-6u41'
+deployit::install_java: true
+deployit::version: '3.9.2'
+deployit::admin_password: 'admin'
+deployit::download_user: 'download'
+deployit::download_password: 'notreally'
+deployit::install_type: 'download'
+deployit::install_license: true
+deployit::license_source: 'https://tech.xebialabs.com/download/licenses/download/deployit-license.lic'
+deployit::server_plugins:
+  jbossdm-plugin:
+    version: '3.9.1'
+    distribution: true

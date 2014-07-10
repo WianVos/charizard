@@ -1,0 +1,43 @@
+Release Notes - JBboss AS Plugin
+
+*** Version 3.9.0
+
+** Improvements
+    * [DEPLOYITPB-4431] - Added jbossas.EjbJar type for EJB deployments.
+
+*** Version 3.8.1
+
+** Improvements
+    * [DEPLOYITPB-2887] - Added support for starting and stopping JBoss on Windows when installed as a service.
+
+** Bug fixes
+    * [DEPLOYITPB-4037] - Made restartRequired property optional to get rid of warning when Deployit starts up.
+    * [DEPLOYITPB-3829] - Incorrect exit code when server not stopped.
+
+*** Version 3.8.0
+
+** Improvements
+    * [DEPLOYITPB-3520] - Added support for XA datasource properties.
+
+** Bug fixes
+    * [DEPLOYITPB-3631] - JBoss datasource cannot handle list_of_string properties.
+    * [DEPLOYITPB-3647] - Fixed serialization of task.
+    * [DEPLOYITPB-3648] - Fixed serialization of task.
+    * [DEPLOYITPB-3732] - jbossas.BaseServer should be a virtual type.
+
+*** Version 3.7.0
+
+** Bug fixes
+    * [DEPLOYITPB-2266] - TwiddleStep in jboss plugin should clean up open connections.
+    * [DEPLOYITPB-2604] - jbossas.DataSourceSpec should be removed.
+    * [DEPLOYITPB-2605] - JBoss is not restarted after deployment of a datasource.
+    * [DEPLOYITPB-2682] - Jboss plugin stop.sh script fails for localhost. It assumes that the host is always remote.
+
+
+*** Version 3.6.0
+
+** Bug fixes
+    * [DEPLOYITPB-2266] - TwiddleStep in jboss plugin should clean up open connections.
+    * [DEPLOYITPB-2604] - jbossas.DataSourceSpec should be removed.
+    * [DEPLOYITPB-2605] - JBoss is not restarted after deployment of a datasource.
+    * [DEPLOYITPB-2682] - Jboss plugin stop.sh script fails for localhost. It assumes that the host is always remote.
