@@ -1,11 +1,10 @@
 ---
  classes:
   - wildfly
-  - deployit
- deployit::server: 'false'
- deployit::import_ssh_key: 'true'
- deployit::http_server_address: 'deployit.local'
- deployit::cis:
+  - xldeploy::client
+ xldeploy::client::import_ssh_key: 'true'
+ xldeploy::client::http_server_address: 'xldeploy.local'
+ xldeploy::client::cis:
         Environments/ZMM:
            name: 'Environments/ZMM'
            type: 'core.Directory'
@@ -45,7 +44,7 @@
              connectionType: 'SUDO'
              os: 'UNIX'
              port: '22'
-             username: 'deployit'
+             username: 'xldeploy'
              sudoUsername: 'root'
              temporaryDirectoryPath: '/var/tmp'
              tags: '%{project}'
@@ -58,20 +57,20 @@
              username: 'wildfly-admin'
              password: 'changeme'
              port: '9990'
- deployit::users:
+ xldeploy::client::users:
         'basic wildfly user':
           id: '%{project}_jenkins'
           password: 'jenkins1234'
- deployit::roles:
+ xldeploy::client::roles:
         'environment_role':
           id: '%{project}-%{environment}-wildfly'
           users:
            - '%{project}_jenkins'
- deployit::dictionary_settings:
+ xldeploy::client::dictionary_settings:
         'Environments/ZMM/project/environment/project-dictionary/test_setting':
           key: 'Environments/ZMM/%{project}/%{environment}/%{project}-dictionary/%{project}'
           value: 'bla bla bla'
- deployit::role_permissions:
+ xldeploy::client::role_permissions:
         'project environment wildfly basics':
           name: '%{project} %{environment} wildfly basics'
           role: '%{project}-%{environment}-wildfly'

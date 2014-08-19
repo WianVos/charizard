@@ -1,0 +1,15 @@
+---
+classes:
+  - xldeploy::server
+xldeploy::server::install_java: true
+xldeploy::server::version: '4.0.1'
+xldeploy::server::admin_password: 'admin'
+xldeploy::server::download_user: 'download'
+xldeploy::server::download_password: '6fDko6yT'
+xldeploy::server::install_type: 'download'
+xldeploy::server::install_license: true
+xldeploy::server::license_source: 'https://tech.xebialabs.com/download/licenses/download/deployit-license.lic'
+xldeploy::server::server_plugins:
+  jbossdm-plugin:
+    version: '3.9.1'
+    distribution: true

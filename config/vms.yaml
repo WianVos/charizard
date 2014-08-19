@@ -20,3 +20,18 @@ vms:
   box: centos-64-x64-vbox4210-nocm
   roles:
   - pe-puppet-agent-dev
+- name: xldeploy
+  hostname: xldeploy.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev
+- name: wildflyxl
+  hostname: wildflyxl.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev
+- name: gitlab1
+  hostname: gitlab1.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev
