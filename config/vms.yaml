@@ -35,3 +35,13 @@ vms:
   box: centos-64-x64-vbox4210-nocm
   roles:
   - pe-puppet-agent-dev
+- name: haproxy1
+  hostname: haproxy1.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev
+- name: consul1
+  hostname: consul1.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev
