@@ -1,0 +1,22 @@
+---
+ classes:
+   - wildfly
+   - consul
+ consul::install_method: url
+ consul::config_hash:
+   datacenter  : 'vagrant-local'
+   log_level: 'INFO'
+   node_name: '%{::fqdn}'
+   server: false
+   start_join: ['consul1.local']
+   data_dir: '/tmp/consul'
+   bind_addr: '%{::ipaddress_eth1}'
+ consul::services_hash:
+   web1:
+     id: web1_%{::hostname}
+     tags: ['test1','http']
+     port: 80
+   web2:
+     id: web2_%{::hostname}
+     tags: ['test1','http']
+     port: 8080

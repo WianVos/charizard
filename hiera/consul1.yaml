@@ -1,0 +1,14 @@
+---
+ classes:
+  - consul
+ consul::install_method: url
+ consul::config_hash:
+    datacenter  : 'vagrant-local'
+    data_dir: '/opt/consul'
+    ui_dir: '/opt/consul/ui'
+    log_level: 'INFO'
+    node_name: 'consul1'
+    server: true
+    bootstrap: true
+    bind_addr: '%{::ipaddress_eth1}'
+    client_addr: '0.0.0.0'

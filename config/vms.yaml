@@ -25,6 +25,12 @@ vms:
   box: centos-64-x64-vbox4210-nocm
   roles:
   - pe-puppet-agent-dev
+
+- name: xldeploy1
+  hostname: xldeploy1.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev
 - name: wildflyxl
   hostname: wildflyxl.local
   box: centos-64-x64-vbox4210-nocm
@@ -42,6 +48,21 @@ vms:
   - pe-puppet-agent-dev
 - name: consul1
   hostname: consul1.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev
+- name: consul2
+  hostname: consul2.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev
+- name: wfc1
+  hostname: wfc1.local
+  box: centos-64-x64-vbox4210-nocm
+  roles:
+  - pe-puppet-agent-dev
+- name: postgresql1
+  hostname: postgresql1.local
   box: centos-64-x64-vbox4210-nocm
   roles:
   - pe-puppet-agent-dev

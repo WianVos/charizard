@@ -30,6 +30,7 @@ roles:
       - {type: shell, inline: 'sed -i "s|.*modulepath.*|    modulepath=\$confdir/environments/\$environment/modules:/modules:/opt/puppet/share/puppet/modules|" /etc/puppetlabs/puppet/puppet.conf'}
       - {type: shell, inline: 'apt-get install -y git ' }
       - {type: shell, inline: '/opt/puppet/bin/gem install r10k' }
+      - {type: shell, inline: '/opt/puppet/bin/gem install bundler' }
       - {type: shell, inline: '/opt/puppet/bin/r10k deploy environment' }
       - {type: shell, inline: 'cd /var/tmp/masterconfigfiles; /opt/puppet/bin/bundle install; service pe-httpd restart' }
 
